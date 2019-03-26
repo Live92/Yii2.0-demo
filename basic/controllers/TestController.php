@@ -58,4 +58,10 @@ class TestController extends Controller
         $response->headers->add('Location', 'https://www.imooc.com/search/?words=yii');
     }
 
+
+    public function actionDemo02(){
+        $response = \YII::$app->response;
+        $response->statusCode = '302';
+        $response->headers->add('Location', 'https://www.imooc.com/search/?words=yii');
+    }
 }

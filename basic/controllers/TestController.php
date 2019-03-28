@@ -14,7 +14,10 @@ use yii\web\Controller;
 
 class TestController extends Controller
 {
-    // 接受参数
+
+    /**-------------------------------     接受参数     ----------------------------------
+     */
+
     public function actionIndex()
     {
         $request = Yii::$app->request;
@@ -47,7 +50,9 @@ class TestController extends Controller
 
     }
 
-    // 响应
+    /**-------------------------------     响应     ----------------------------------
+     */
+
     public function actionDemo(){
         $response = Yii::$app->response;
         // 重定向
@@ -64,7 +69,9 @@ class TestController extends Controller
 
 
 
-    // session 组件
+    /**-------------------------------     session 组件     ----------------------------------
+     */
+
     public function actionSessionDemo(){
         $session = Yii::$app->session;
         var_dump($session->isActive);
@@ -81,8 +88,9 @@ class TestController extends Controller
     }
 
 
+    /**-------------------------------     cookies 组件     ----------------------------------
+     */
 
-    // cookies 组件
     public function actionCookieDemo(){
         // 待写入数据
         $data = ['name'=>'user_id', 'value'=>'19'];
@@ -97,20 +105,95 @@ class TestController extends Controller
 
         // 读取cookie
         $cookies_res = Yii::$app->request->cookies;
-        print_r($cookies_res->get(''));
+        print_r($cookies_res->get('user_id'));
         echo $cookies_res->getValue('user_id', 20);
 
     }
 
-    // 表单
+    /**-------------------------------     视图     ----------------------------------
+     */
+
+    public function actionViewDemo(){
+        $data = ['a'=>'蘑菇'];
+
+        // render 呈现视图并在可用时应用布局。
+        return $this->render('view-demo', ['data'=>$data]);
+
+        // renderPartial 在不应用布局的情况下呈现视图。
+//        return $this->renderPartial('view-demo', ['data'=>$data]);
+
+        // renderContent 通过应用布局呈现静态字符串。
+//        return $this->renderContent('view-demo');
+
+    }
+
+    /**-------------------------------     表单     ----------------------------------
+     */
+
     public function actionFormDemo(){
         $model = new TestForm();
-        $this->renderPartial();
-
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             return $this->render('formdata', ['model'=>$model]);
         } else {
             return $this->render('formdemo', ['model'=>$model]);
         }
     }
+
+    /**-------------------------------     日志     ----------------------------------
+     */
+
+    public function actionLogDemo(){
+        $message = '哈哈哈哈哈' . date('Y-m-d H:i:s');
+        Yii::info($message,'yii\sss');
+        Yii::warning($message,'debug');
+//        Yii::error($message,'debug');
+//        Yii::trace($message,'debug');
+//        Yii::error($message,'toMe');
+
+        echo $message;
+
+    }
+
+    /**-------------------------------     邮件     ----------------------------------
+     */
+    public function actionEmailDemo(){
+        $mail= \Yii::$app->mailer->compose();
+        $mail->setTo('916392142@qq.com');
+        $mail->setSubject("邮件测试");
+//        $mail->setTextBody('zheshi ');   //发布纯文字文本
+        $mail->setHtmlBody("<br>问我我我我我");    //发布可以带html标签的文本
+        if($mail->send()){
+            echo "success";
+        }else{
+            echo "failse";
+        }
+        exit;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
